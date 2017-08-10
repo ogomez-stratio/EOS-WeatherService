@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>groupId</groupId>
-    <artifactId>WeatherService</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>weatherService</artifactId>
+    <version>0.0.1.SNAPSHOT</version>
 
     <!-- Inherit defaults from Spring Boot -->
     <parent>
@@ -16,10 +16,10 @@
     </parent>
 
     <properties>
+        <docker.spotify.version>0.4.13</docker.spotify.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <docker.image.prefix>bootstrap-sec.labs.stratio.com:5000</docker.image.prefix>
-        <docker.maven.plugin.version>0.4.13</docker.maven.plugin.version>
+        <docker.image.prefix>eos</docker.image.prefix>
         <spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
     </properties>
     <!-- Add typical dependencies for a web application -->
@@ -101,14 +101,10 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker.maven.plugin.version}</version>
+                <version>${docker.spotify.version}</version>
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <forceTags>true</forceTags>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                    </imageTags>
-                    <dockerDirectory>.</dockerDirectory>
+                    <imageName>${docker.image.prefix}-${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -116,10 +112,18 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+                    <forceTags>true</forceTags>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
-    
 </project>

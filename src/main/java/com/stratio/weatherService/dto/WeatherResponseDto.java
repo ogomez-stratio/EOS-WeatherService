@@ -135,9 +135,10 @@ public class WeatherResponseDto {
 
     @Data
     @Builder
-    private static class ForecastDto {
+    public static class ForecastDto {
         private String code;
         private String date;
+        private String day;
         private String high;
         private String low;
         private String text;

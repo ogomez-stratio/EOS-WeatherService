@@ -14,4 +14,5 @@ public class WeatherConfig {
     private String path;
     private String format;
     private String query;
+    private String dasWeatherServiceId;
 }

@@ -12,3 +12,4 @@ service:
    path: /v1/public/yql
    query: select%20*%20from%20weather.forecast%20where%20woeid%20%3D%
    format: json
+   dasWeatherServiceId: daasWeatherService

@@ -3,3 +3,4 @@ spring:
     consul:
       discovery:
         preferIpAddress: true
+        queryPassing: true
