@@ -2,7 +2,7 @@ FROM frolvlad/alpine-oraclejdk8:slim
 
 VOLUME /tmp
 
-ADD weatherService-0.0.1.SNAPSHOT.jar weatherService.jar
+ADD weatherService-0.0.1-SNAPSHOT.jar weatherService.jar
 
 RUN sh -c 'touch /weatherService.jar'
 
