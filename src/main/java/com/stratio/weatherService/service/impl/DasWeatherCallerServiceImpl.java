@@ -57,7 +57,7 @@ public class DasWeatherCallerServiceImpl implements DasWeatherCallerService {
         String[] parameters ={city,text};
 
         ResponseEntity<WeatherEntityDto[]> result = restTemplate.exchange(
-                discoveryClient.getServiceUri(config.getDasWeatherServiceId())+"api/v1/weatherAudit/city({city}/prediction/{prediction}",
+                discoveryClient.getServiceUri(config.getDasWeatherServiceId())+"/api/v1/weatherAudit/city({city}/prediction/{prediction}",
                 HttpMethod.GET,
                 request,
                 WeatherEntityDto[].class,

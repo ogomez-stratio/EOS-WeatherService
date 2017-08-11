@@ -29,7 +29,7 @@ public class WeatherRestController {
             @ApiResponse(code = 404, message = "User does not exist or is missing city")
     })
     public ResponseEntity<WeatherResponseDto> getWeatherByCity(
-        @ApiParam(required = true, value = "City for w")
+        @ApiParam(required = true, value = "City we want to request weather prediction")
         @PathVariable String city) throws Exception {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(weatherService.getweatherBycity(city)));
@@ -42,9 +42,9 @@ public class WeatherRestController {
             @ApiResponse(code = 404, message = "User does not exist or is missing city")
     })
     public ResponseEntity<String> getHistory(
-            @ApiParam(required = true, value = "Id of client to calculate the analitics")
+            @ApiParam(required = true, value = "City we want to request historic weather prediction")
             @PathVariable String city,
-            @ApiParam(required = true, value = "Id of client to calculate the analitics")
+            @ApiParam(required = true, value = "Type of prediction we want to filter (sunny,cloudy,rain,..) ")
             @PathVariable String prediction
     ) throws Exception {
 
