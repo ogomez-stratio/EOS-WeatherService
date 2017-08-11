@@ -18,7 +18,7 @@ public class SwaggerConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("EOS Practial Use Case")
-            .description("API return the weather prediction of a city (Madrid, Barcelona, Bilbao, Sevilla) for last 5 days.")
+            .description("API return the weather prediction of a city (Madrid, Barcelona, Bilbao, Seville) for last 5 days.")
             .version("0.0.1-SNAPSHOT")
             .contact(new Contact("Stratio","", ""))
             .build();

@@ -1,5 +1,6 @@
 package com.stratio.weatherService.controller;
 
+import com.stratio.weatherService.dto.WeatherEntityDto;
 import com.stratio.weatherService.dto.WeatherResponseDto;
 import com.stratio.weatherService.service.DasWeatherCallerService;
 import com.stratio.weatherService.service.WeatherService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class WeatherRestController {
     })
     public ResponseEntity<WeatherResponseDto> getWeatherByCity(
         @ApiParam(required = true, value = "City we want to request weather prediction")
-        @PathVariable String city) throws Exception {
+        @PathVariable String city) throws HttpClientErrorException {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(weatherService.getweatherBycity(city)));
     }
@@ -41,12 +43,12 @@ public class WeatherRestController {
             @ApiResponse(code = 200, message = "Standard response for successful HTTP requests"),
             @ApiResponse(code = 404, message = "User does not exist or is missing city")
     })
-    public ResponseEntity<String> getHistory(
+    public ResponseEntity<WeatherEntityDto> getHistory(
             @ApiParam(required = true, value = "City we want to request historic weather prediction")
             @PathVariable String city,
             @ApiParam(required = true, value = "Type of prediction we want to filter (sunny,cloudy,rain,..) ")
             @PathVariable String prediction
-    ) throws Exception {
+    ) throws HttpClientErrorException {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(dasWeatherCallerService.getHistoric(city, prediction)));
     }
