@@ -14,5 +14,8 @@ public class WeatherConfig {
     private String path;
     private String format;
     private String query;
-    private String dasWeatherServiceId;
+    private String dasWeatherServiceId="";
+    private String dasWeatherServicePort;
+    private String saveResponse;
+    private String getHistoric;
 }

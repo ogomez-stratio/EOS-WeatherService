@@ -1,6 +1,6 @@
 package com.stratio.weatherService.service.impl;
 
-import com.stratio.weatherService.component.DiscoveryClient;
+import com.stratio.weatherService.config.DcosConfig;
 import com.stratio.weatherService.config.WeatherConfig;
 import com.stratio.weatherService.dto.WeatherEntityDto;
 import com.stratio.weatherService.service.DasWeatherCallerService;
@@ -21,9 +21,10 @@ public class DasWeatherCallerServiceImpl implements DasWeatherCallerService {
 
 
     private final RestTemplate restTemplate;
-    private final DiscoveryClient discoveryClient;
-    private final WeatherConfig config;
+    private final WeatherConfig weatherConfig;
+    private final DcosConfig dcosConfig;
 
+    private static final String protocol = "http://";
 
     @Override
     public CompletableFuture<List<WeatherEntityDto>> saveWeatherEntities(List<WeatherEntityDto> entities) {
@@ -39,7 +40,9 @@ public class DasWeatherCallerServiceImpl implements DasWeatherCallerService {
         HttpEntity<List<WeatherEntityDto>> request = new HttpEntity(entities,httpHeaders);
 
         ResponseEntity<WeatherEntityDto[]> result = restTemplate.exchange(
-                discoveryClient.getServiceUri(config.getDasWeatherServiceId())+"/api/v1/weatherAudit",
+                protocol+weatherConfig.getDasWeatherServiceId()
+                        +dcosConfig.getDomain()+':'+weatherConfig.getDasWeatherServicePort()
+                        +weatherConfig.getSaveResponse(),
                 HttpMethod.POST,
                 request,
                 WeatherEntityDto[].class);
@@ -57,7 +60,9 @@ public class DasWeatherCallerServiceImpl implements DasWeatherCallerService {
         String[] parameters ={city,text};
 
         ResponseEntity<WeatherEntityDto[]> result = restTemplate.exchange(
-                discoveryClient.getServiceUri(config.getDasWeatherServiceId())+"/api/v1/weatherAudit/city({city}/prediction/{prediction}",
+                protocol+weatherConfig.getDasWeatherServiceId()
+                        +dcosConfig.getDomain()+':'+weatherConfig.getDasWeatherServicePort()
+                        +weatherConfig.getGetHistoric(),
                 HttpMethod.GET,
                 request,
                 WeatherEntityDto[].class,
@@ -66,9 +71,9 @@ public class DasWeatherCallerServiceImpl implements DasWeatherCallerService {
         return Arrays.asList(result.getBody());
     }
 
-    public DasWeatherCallerServiceImpl(RestTemplate restTemplate, DiscoveryClient discoveryClient, WeatherConfig config) {
+    public DasWeatherCallerServiceImpl(RestTemplate restTemplate, WeatherConfig weatherConfig, DcosConfig dcosConfig) {
         this.restTemplate = restTemplate;
-        this.discoveryClient = discoveryClient;
-        this.config = config;
+        this.weatherConfig = weatherConfig;
+        this.dcosConfig = dcosConfig;
     }
 }
